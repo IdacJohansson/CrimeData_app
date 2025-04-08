@@ -1,0 +1,42 @@
+openapi: 3.0.4
+info:
+  title: Crime Data API
+  description: API for fetching crime data in various cities.
+  version: 1.0.0
+
+servers:
+  - url:  http://localhost:8080
+    description: Server URL.
+
+paths:
+  /crimes:
+    get:
+      summary: Returns all recent crimes in Helsingborg.
+      responses:
+        '200':
+          description: A list of crime events.
+  /crimes/headline:
+    get:
+      summary: Returns only the headline for each crime.
+      responses:
+        '200':
+          description: A list of crime headlines.
+  /crimes/search:
+    get:
+      summary: Search for crimes in a specific city
+      parameters:
+        - in: query
+          name: city
+          schema:
+            type: string
+          description: The city to search for crimes
+          required: true
+      responses:
+        '200':
+          description: A list of crimes for the specified city
+  /crimes/latest:
+    get:
+      summary: Get the latest crime event
+      responses:
+        '200':
+          description: The most recent crime event          
