@@ -1,15 +1,20 @@
 import express from "express";
 import axios from "axios";
-// import swaggerJsdoc from 'swagger-jsdoc';
-// import swaggerUi from 'swagger-ui-express';
+import jsYaml from "js-yaml";
+import swaggerUi from "swagger-ui-express";
+import fs from "fs";
 
 const app = express();
 const router = express.Router();
 app.use(express.json());
 app.use("/crimes", router);
 
+const swaggerDocs = jsYaml.load(fs.readFileSync("./swagger.yaml"));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 const API_URL =
   "https://brottsplatskartan.se/api/events/?location=helsingborg&limit=5";
+const PORT = 8080;
 
 // Routes
 
@@ -85,7 +90,6 @@ router.get("/latest", async (req, res) => {
   }
 });
 
-const PORT = 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
